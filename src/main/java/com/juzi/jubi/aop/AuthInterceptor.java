@@ -1,14 +1,10 @@
 package com.juzi.jubi.aop;
 
 import com.juzi.jubi.annotation.AuthCheck;
-import com.juzi.jubi.exception.BusinessException;
 import com.juzi.jubi.common.ErrorCode;
+import com.juzi.jubi.exception.ThrowUtils;
 import com.juzi.jubi.model.entity.User;
 import com.juzi.jubi.model.enums.UserRoleEnum;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import com.juzi.jubi.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,6 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 权限校验 AOP
@@ -48,20 +47,13 @@ public class AuthInterceptor {
         // 必须有该权限才通过
         if (StringUtils.isNotBlank(mustRole)) {
             UserRoleEnum mustUserRoleEnum = UserRoleEnum.getEnumByValue(mustRole);
-            if (mustUserRoleEnum == null) {
-                throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
-            }
+            ThrowUtils.throwIf(mustUserRoleEnum == null, ErrorCode.NO_AUTH_ERROR);
             String userRole = loginUser.getUserRole();
             // 如果被封号，直接拒绝
-            if (UserRoleEnum.BAN.equals(mustUserRoleEnum)) {
-                throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
-            }
+            ThrowUtils.throwIf(UserRoleEnum.BAN.equals(mustUserRoleEnum), ErrorCode.NO_AUTH_ERROR);
             // 必须有管理员权限
-            if (UserRoleEnum.ADMIN.equals(mustUserRoleEnum)) {
-                if (!mustRole.equals(userRole)) {
-                    throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
-                }
-            }
+            ThrowUtils.throwIf(UserRoleEnum.ADMIN.equals(mustUserRoleEnum) && !mustRole.equals(userRole),
+                    ErrorCode.NO_AUTH_ERROR);
         }
         // 通过权限校验，放行
         return joinPoint.proceed();

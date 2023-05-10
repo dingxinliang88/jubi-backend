@@ -7,8 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 /**
 * @author codejuzi
 * @description 针对表【user(用户)】的数据库操作Mapper
-* @createDate 2023-05-01 20:27:32
-* @Entity com.juzi.jubi.model.entity.User
 */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {

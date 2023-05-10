@@ -185,7 +185,7 @@ public class ChartController {
 
     @PostMapping("/generate")
     public BaseResponse<String> genChartByAi(@RequestPart("file") MultipartFile multipartFile,
-                                             GenChartByAiRequest genChartByAiRequest, HttpServletRequest request) {
+                                             GenChartByAiRequest genChartByAiRequest) {
         String name = genChartByAiRequest.getName();
         String goal = genChartByAiRequest.getGoal();
         String chartType = genChartByAiRequest.getChartType();
@@ -194,11 +194,15 @@ public class ChartController {
         ThrowUtils.throwIf(StringUtils.isNoneBlank(name) && name.length() > 200,
                 ErrorCode.PARAMS_ERROR, "图表名称过长");
 
+
         StringBuilder userInput = new StringBuilder();
         // 预设
         userInput.append("你是一个数据分析师，接下来我会给你我的分析目标和原始数据，请告诉我分析结论。").append("\n");
         // 用户输入
         userInput.append("分析目标：").append(goal).append("\n");
+        if (StringUtils.isNoneBlank(chartType)) {
+            userInput.append("要求的图表类型：").append(chartType).append("\n");
+        }
         // 压缩
         String data = ExcelUtils.xlsx2Csv(multipartFile);
         userInput.append("数据：").append(data).append("\n");
