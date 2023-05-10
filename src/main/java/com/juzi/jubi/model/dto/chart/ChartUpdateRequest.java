@@ -1,8 +1,5 @@
 package com.juzi.jubi.model.dto.chart;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,8 +16,12 @@ public class ChartUpdateRequest implements Serializable {
     /**
      * id
      */
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
+
+    /**
+     * 图表名称
+     */
+    private String name;
 
     /**
      * 分析目标
@@ -60,7 +61,6 @@ public class ChartUpdateRequest implements Serializable {
     /**
      * 是否删除
      */
-    @TableLogic
     private Integer isDelete;
 
     private static final long serialVersionUID = 1L;

@@ -86,10 +86,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
         }
-        if (userAccount.length() < USER_PASSWORD_MIN_LEN) {
+        if (userAccount.length() < USER_ACCOUNT_MIN_LEN) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "账号错误");
         }
-        if (userPassword.length() < USER_ACCOUNT_MIN_LEN) {
+        if (userPassword.length() < USER_PASSWORD_MIN_LEN) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "密码错误");
         }
         // 2. 加密

@@ -11,20 +11,19 @@ import com.juzi.jubi.constant.CommonConstant;
 import com.juzi.jubi.constant.UserConstant;
 import com.juzi.jubi.exception.BusinessException;
 import com.juzi.jubi.exception.ThrowUtils;
-import com.juzi.jubi.model.dto.chart.ChartAddRequest;
-import com.juzi.jubi.model.dto.chart.ChartEditRequest;
-import com.juzi.jubi.model.dto.chart.ChartQueryRequest;
-import com.juzi.jubi.model.dto.chart.ChartUpdateRequest;
+import com.juzi.jubi.model.dto.chart.*;
 import com.juzi.jubi.model.entity.Chart;
 import com.juzi.jubi.model.entity.User;
 import com.juzi.jubi.service.ChartService;
 import com.juzi.jubi.service.UserService;
+import com.juzi.jubi.utils.ExcelUtils;
 import com.juzi.jubi.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -184,6 +183,28 @@ public class ChartController {
         return ResultUtils.success(result);
     }
 
+    @PostMapping("/generate")
+    public BaseResponse<String> genChartByAi(@RequestPart("file") MultipartFile multipartFile,
+                                             GenChartByAiRequest genChartByAiRequest, HttpServletRequest request) {
+        String name = genChartByAiRequest.getName();
+        String goal = genChartByAiRequest.getGoal();
+        String chartType = genChartByAiRequest.getChartType();
+        // validation
+        ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标不能为空！");
+        ThrowUtils.throwIf(StringUtils.isNoneBlank(name) && name.length() > 200,
+                ErrorCode.PARAMS_ERROR, "图表名称过长");
+
+        StringBuilder userInput = new StringBuilder();
+        // 预设
+        userInput.append("你是一个数据分析师，接下来我会给你我的分析目标和原始数据，请告诉我分析结论。").append("\n");
+        // 用户输入
+        userInput.append("分析目标：").append(goal).append("\n");
+        // 压缩
+        String data = ExcelUtils.xlsx2Csv(multipartFile);
+        userInput.append("数据：").append(data).append("\n");
+        return ResultUtils.success(userInput.toString());
+    }
+
     /**
      * 校验图表
      *
@@ -213,12 +234,15 @@ public class ChartController {
             return queryWrapper;
         }
         Long id = chartQueryRequest.getId();
+        String name = chartQueryRequest.getName();
         String goal = chartQueryRequest.getGoal();
         String chartType = chartQueryRequest.getChartType();
         Long userId = chartQueryRequest.getUserId();
         String sortField = chartQueryRequest.getSortField();
         String sortOrder = chartQueryRequest.getSortOrder();
+
         queryWrapper.eq(id != null && id > 0, "id", id);
+        queryWrapper.like(StringUtils.isNotBlank(name), "name", name);
         queryWrapper.eq(StringUtils.isNotBlank(goal), "goal", goal);
         queryWrapper.eq(StringUtils.isNotBlank(chartType), "chartType", chartType);
         queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
