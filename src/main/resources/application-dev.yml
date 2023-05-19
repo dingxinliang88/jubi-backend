@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jubi
+    username: root
+    password: 12345678
+server:
+  address: 0.0.0.0
+  port: 8101
+  servlet:
+    context-path: /api
+    # cookie 30 天过期
+    session:
+      cookie:
+        max-age: 2592000
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 要使用的模型ID
+ai:
+  model:
+    model-id: 1659171950288818178
+
+yuapi:
+  client:
+    access-key: 88n4sbomrf9c73mu6tj1ujjmml95cawo
+    secret-key: hxeo9h6jny7wexyr399ajw2mr93866r0

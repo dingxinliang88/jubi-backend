@@ -14,9 +14,9 @@ import com.juzi.jubi.exception.ThrowUtils;
 import com.juzi.jubi.model.dto.chart.*;
 import com.juzi.jubi.model.entity.Chart;
 import com.juzi.jubi.model.entity.User;
+import com.juzi.jubi.model.vo.BiResponse;
 import com.juzi.jubi.service.ChartService;
 import com.juzi.jubi.service.UserService;
-import com.juzi.jubi.utils.ExcelUtils;
 import com.juzi.jubi.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -29,7 +29,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 帖子接口
+ * 图表接口
  *
  * @author codejuzi
  */
@@ -184,29 +184,18 @@ public class ChartController {
     }
 
     @PostMapping("/generate")
-    public BaseResponse<String> genChartByAi(@RequestPart("file") MultipartFile multipartFile,
-                                             GenChartByAiRequest genChartByAiRequest) {
+    public BaseResponse<BiResponse> genChartByAi(@RequestPart("file") MultipartFile multipartFile,
+                                                 GenChartByAiRequest genChartByAiRequest,
+                                                 HttpServletRequest request) {
         String name = genChartByAiRequest.getName();
         String goal = genChartByAiRequest.getGoal();
-        String chartType = genChartByAiRequest.getChartType();
         // validation
         ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标不能为空！");
         ThrowUtils.throwIf(StringUtils.isNoneBlank(name) && name.length() > 200,
                 ErrorCode.PARAMS_ERROR, "图表名称过长");
+        BiResponse biResponse = chartService.genChartByAi(multipartFile, genChartByAiRequest, request);
 
-
-        StringBuilder userInput = new StringBuilder();
-        // 预设
-        userInput.append("你是一个数据分析师，接下来我会给你我的分析目标和原始数据，请告诉我分析结论。").append("\n");
-        // 用户输入
-        userInput.append("分析目标：").append(goal).append("\n");
-        if (StringUtils.isNoneBlank(chartType)) {
-            userInput.append("要求的图表类型：").append(chartType).append("\n");
-        }
-        // 压缩
-        String data = ExcelUtils.xlsx2Csv(multipartFile);
-        userInput.append("数据：").append(data).append("\n");
-        return ResultUtils.success(userInput.toString());
+        return ResultUtils.success(biResponse);
     }
 
     /**
