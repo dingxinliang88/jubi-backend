@@ -31,6 +31,11 @@ public interface ChartConstant {
     String GEN_CHART_REGEX = "\\{(?>[^{}]*(?:\\{[^{}]*}[^{}]*)*)}";
 
     /**
+     * 删除图表的Echarts配置中的title部分
+     */
+    String REMOVE_GEN_CHART_TITLE_REGEX = "([{,])\\s*\"title\"\\s*:\\s*(\\{[^{}]*}|\"[^\"]*\")\\s*,?";
+
+    /**
      * 图表默认名称的前缀
      */
     String DEFAULT_CHART_NAME_PREFIX = "Chart_";

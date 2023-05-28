@@ -69,6 +69,7 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
         String preGenChart = contents[GEN_CHART_IDX].trim();
         String genResult = contents[GEN_RESULT_IDX].trim();
         String validGenChart = ChartUtils.getValidGenChart(preGenChart);
+        String finalGenChart = ChartUtils.removeGenChartTitle(validGenChart);
 
         // 插入数据
         Chart chart = new Chart();
@@ -77,7 +78,7 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
         chart.setGoal(goal);
         chart.setChartData(csvData);
         chart.setChartType(chartType);
-        chart.setGenChart(validGenChart);
+        chart.setGenChart(finalGenChart);
         chart.setGenResult(genResult);
         chart.setUserId(loginUser.getId());
         this.save(chart);

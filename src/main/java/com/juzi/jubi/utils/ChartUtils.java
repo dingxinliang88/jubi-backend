@@ -15,6 +15,7 @@ import static com.juzi.jubi.constant.ChartConstant.*;
 public class ChartUtils {
 
     private static final Pattern VALID_GEN_CHART_PATTERN = Pattern.compile(GEN_CHART_REGEX, Pattern.COMMENTS);
+    private static final Pattern REMOVE_TITLE_PATTERN = Pattern.compile(REMOVE_GEN_CHART_TITLE_REGEX);
 
     /**
      * 依照正则表达式来匹配合法的图表的echarts配置
@@ -26,6 +27,20 @@ public class ChartUtils {
         Matcher matcher = VALID_GEN_CHART_PATTERN.matcher(preGenChart);
         ThrowUtils.throwIf(!matcher.find(), ErrorCode.SYSTEM_ERROR, "生成图表错误");
         return matcher.group();
+    }
+
+    /**
+     * 依照正则表达式来移除合法的Echarts配置中的title部分
+     *
+     * @param validGenChart 合法的Echarts配置
+     * @return 去除title部分后的配置
+     */
+    public static String removeGenChartTitle(String validGenChart) {
+        Matcher matcher = REMOVE_TITLE_PATTERN.matcher(validGenChart);
+        if (matcher.find()) {
+            validGenChart = matcher.replaceAll("$1");
+        }
+        return validGenChart;
     }
 
     /**

@@ -2,9 +2,6 @@ package com.juzi.jubi;
 
 import com.juzi.jubi.utils.ChartUtils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * @author codejuzi
  */
@@ -33,6 +30,8 @@ public class Main {
 
         String validGenChart = ChartUtils.getValidGenChart(text);
         System.out.println(validGenChart);
-    }
 
+        String removeGenChartTitle = ChartUtils.removeGenChartTitle(validGenChart);
+        System.out.println(removeGenChartTitle);
+    }
 }
