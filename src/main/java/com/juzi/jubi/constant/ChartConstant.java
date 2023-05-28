@@ -28,7 +28,8 @@ public interface ChartConstant {
     /**
      * 提取生成的图表的Echarts配置的正则
      */
-    String GEN_CHART_REGEX = "\\{(?>[^{}]*(?:\\{[^{}]*}[^{}]*)*)}";
+//    String GEN_CHART_REGEX = "\\{(?>[^{}]*(?:\\{[^{}]*}[^{}]*)*)}";
+    String GEN_CHART_REGEX = "\\{.*\\}";
 
     /**
      * 删除图表的Echarts配置中的title部分

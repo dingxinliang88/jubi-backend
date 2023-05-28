@@ -14,7 +14,8 @@ import static com.juzi.jubi.constant.ChartConstant.*;
  */
 public class ChartUtils {
 
-    private static final Pattern VALID_GEN_CHART_PATTERN = Pattern.compile(GEN_CHART_REGEX, Pattern.COMMENTS);
+    //        private static final Pattern VALID_GEN_CHART_PATTERN = Pattern.compile(GEN_CHART_REGEX, Pattern.COMMENTS);
+    private static final Pattern VALID_GEN_CHART_PATTERN = Pattern.compile(GEN_CHART_REGEX, Pattern.DOTALL);
     private static final Pattern REMOVE_TITLE_PATTERN = Pattern.compile(REMOVE_GEN_CHART_TITLE_REGEX);
 
     /**
