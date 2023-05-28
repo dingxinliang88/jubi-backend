@@ -4,6 +4,10 @@ spring:
     url: jdbc:mysql://localhost:3306/jubi
     username: root
     password: 12345678
+  redis:
+    host: localhost
+    port: 6379
+    database: 3
 server:
   address: 0.0.0.0
   port: 8101
@@ -25,5 +29,5 @@ ai:
 
 yuapi:
   client:
-    access-key: qf503e49j9ls7j21h2gy1cru80hdq4vy
-    secret-key: t4awa3eazmov39773fibljzlo1wuxaca
+    access-key: 替换成你自己的access-key
+    secret-key: 替换成你自己的secret-key

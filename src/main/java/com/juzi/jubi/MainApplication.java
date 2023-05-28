@@ -17,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @MapperScan("com.juzi.jubi.mapper")
 @EnableConfigurationProperties({ModelConfigProperties.class})
-@SpringBootApplication(exclude = {RedisAutoConfiguration.class})
+@SpringBootApplication
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 public class MainApplication {
 
