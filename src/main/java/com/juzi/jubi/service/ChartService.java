@@ -26,4 +26,16 @@ public interface ChartService extends IService<Chart> {
     BiResponse genChartByAi(MultipartFile multipartFile,
                             GenChartByAiRequest genChartByAiRequest,
                             HttpServletRequest request);
+
+    /**
+     * AI生成图表（异步）
+     *
+     * @param multipartFile       用户上传的文件信息
+     * @param genChartByAiRequest 用户的需求
+     * @param request             http request
+     * @return BiResponse 处理后的ai生成内容
+     */
+    BiResponse genChartByAiAsync(MultipartFile multipartFile,
+                                 GenChartByAiRequest genChartByAiRequest,
+                                 HttpServletRequest request);
 }

@@ -29,6 +29,8 @@ create table if not exists chart
     goal       text                               null comment '分析目标',
     chartData  text                               null comment '图表数据',
     chartType  varchar(128)                       null comment '图表类型',
+    execStatus tinyint                            not null default 0 comment '任务执行状态，0-wait, 1-running, 2-success, 3-failed',
+    execMsg    text                               null comment '任务执行信息',
     genChart   text                               null comment '生成的图表数据',
     genResult  text                               null comment '生成的分析结论',
     userId     bigint                             null comment '创建用户 id',

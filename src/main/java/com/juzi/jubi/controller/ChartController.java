@@ -183,6 +183,7 @@ public class ChartController {
         return ResultUtils.success(result);
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @PostMapping("/generate")
     public BaseResponse<BiResponse> genChartByAi(@RequestPart("file") MultipartFile multipartFile,
                                                  GenChartByAiRequest genChartByAiRequest,
@@ -194,6 +195,22 @@ public class ChartController {
         ThrowUtils.throwIf(StringUtils.isNoneBlank(name) && name.length() > 200,
                 ErrorCode.PARAMS_ERROR, "图表名称过长");
         BiResponse biResponse = chartService.genChartByAi(multipartFile, genChartByAiRequest, request);
+
+        return ResultUtils.success(biResponse);
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    @PostMapping("/generate/async")
+    public BaseResponse<BiResponse> genChartByAiAsync(@RequestPart("file") MultipartFile multipartFile,
+                                                      GenChartByAiRequest genChartByAiRequest,
+                                                      HttpServletRequest request) {
+        String name = genChartByAiRequest.getName();
+        String goal = genChartByAiRequest.getGoal();
+        // validation
+        ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标不能为空！");
+        ThrowUtils.throwIf(StringUtils.isNoneBlank(name) && name.length() > 200,
+                ErrorCode.PARAMS_ERROR, "图表名称过长");
+        BiResponse biResponse = chartService.genChartByAiAsync(multipartFile, genChartByAiRequest, request);
 
         return ResultUtils.success(biResponse);
     }

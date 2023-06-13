@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "ai.model")
+@ConfigurationProperties(prefix = "jubi.ai.model")
 public class ModelConfigProperties {
 
     /**

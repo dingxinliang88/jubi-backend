@@ -23,11 +23,17 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 # 要使用的模型ID
-ai:
-  model:
-    model-id: 1659171950288818178
+jubi:
+  ai:
+    model:
+      model-id: 1659171950288818178
+  thread:
+    corePollSize: 2
+    maximumPoolSize: 4
+    keepAliveTime: 100
+    queueCapacity: 4
 
 yuapi:
   client:
-    access-key: 替换成你自己的access-key
-    secret-key: 替换成你自己的secret-key
+    access-key: sytt8xli2cn9chufxkvm53ibo7w8d6vm
+    secret-key: eolzbnjcwyrlt4wk5xziwk4yrn9m0p29

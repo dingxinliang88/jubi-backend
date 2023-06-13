@@ -45,4 +45,14 @@ public interface ChartConstant {
      * 图表默认名称的后缀长度
      */
     int DEFAULT_CHART_NAME_SUFFIX_LEN = 10;
+
+    // region chart exec status
+
+    Integer CONS_WAIT = 0;
+    Integer CONS_RUNNING = 1;
+    Integer CONS_SUCCESS = 2;
+    Integer CONS_FAILED = 3;
+
+
+    // endregion
 }
